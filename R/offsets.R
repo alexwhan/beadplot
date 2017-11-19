@@ -61,6 +61,8 @@ offset_data <- function(data, offsets, group, disp, offsets_min = "min", offsets
   if(!inherits(offsets[[group]], "factor")) {
     message(paste("Converting", group, "to factor, this may affect expected ordering"))
     offsets[[group]] <- factor(offsets[[group]])
+  }
+
   #Check the levels of group in data are a subset of group in offsets
   stopifnot(all(levels(data[[group]]) %in% levels(offsets[[group]])))
 
