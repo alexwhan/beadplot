@@ -1,0 +1,12 @@
+Package: beadplot
+Type: Package
+Title: Plots Values On A Continuous Axis Offset By Group
+Version: 0.0.0.9000
+Authors@R: person("Alex", "Whan", email = alex.whan@csiro.au,
+              role = c("aut", "cre"))
+Maintainer: Alex Whan <alex.whan@csiro.au>
+Description: Visualises values like beads on a string. Originally for 
+    static QTL visualisation.
+License: MIT
+Encoding: UTF-8
+LazyData: true
