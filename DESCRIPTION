@@ -10,3 +10,5 @@ Description: Visualises values like beads on a string. Originally for
 License: MIT
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.0.1
+Suggests: testthat
