@@ -34,27 +34,41 @@ GeomBead <- ggproto("GeomBead", Geom,
                       data$x <- data$x + data$offset
                       data$xend <- max(data$offset) + data$max[which.max(data$offset)]
                       data$yend <- data$y
+                      data$group <- data$y
                       data
                     },
                     draw_group = function(data, panel_scales, coord, segments) {
-                      # browser()
+                      browser()
                       segments <- calc_offsets(segments, "segment_id", "min", "max")
-                      rects <- segments
-                      rects$xmin <- rects$offset
-                      rects$xmax <- rects$offset + (rects$max - rects$min)
-                      rects$ymin <- panel_scales$y.range[1]
-                      rects$ymax <- panel_scales$y.range[2]
-                      rects <- merge(rects, data)
-                      rects$fill <- rects$segment.fill
+                      if(data$group[1] == 1) {
+                        rects <- segments
+                        rects$xmin <- rects$offset
+                        rects$xmax <- rects$offset + (rects$max - rects$min)
+                        rects$ymin <- panel_scales$y.range[1]
+                        rects$ymax <- panel_scales$y.range[2]
+                        rects$PANEL <- data$PANEL
+                        rects$group <- data$group
+                        rects$fill <- data$segment.fill
+                        rects$size <- data$size
+                      }
                       segments <- merge(segments, data)
                       segments$x <- 0
                       data$size <- data$size * 5
                       browser()
-                      grid::gList(
-                        ggplot2::GeomRect$draw_panel(rects, panel_scales, coord),
-                        ggplot2::GeomSegment$draw_panel(segments, panel_scales, coord),
-                        ggplot2::GeomPoint$draw_panel(data, panel_scales, coord)
-                      )
+                      if(data$group[1] == 1) {
+                        grid::gList(
+                          ggplot2::GeomRect$draw_panel(rects, panel_scales, coord),
+                          ggplot2::GeomSegment$draw_panel(segments, panel_scales, coord),
+                          ggplot2::GeomPoint$draw_panel(data, panel_scales, coord)
+                        )
+                      }
+                      else {
+                        grid::gList(
+                          ggplot2::GeomSegment$draw_panel(segments, panel_scales, coord),
+                          ggplot2::GeomPoint$draw_panel(data, panel_scales, coord)
+                        )
+                      }
+
                     },
                     required_aes = c("x", "y", "segment_id"),
 
