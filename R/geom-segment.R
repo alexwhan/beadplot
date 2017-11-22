@@ -1,12 +1,12 @@
-geom_bead <- function(mapping = NULL, data = NULL, ...,
+geom_segment <- function(mapping = NULL, data = NULL, ...,
                       segments = NULL,
-                      na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
+                      na.rm = FALSE, show.legend = NA, inherit.aes = FALSE) {
 
   ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = "identity",
-    geom = GeomBead,
+    geom = GeomSegment,
     position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -18,50 +18,48 @@ geom_bead <- function(mapping = NULL, data = NULL, ...,
   )
 }
 
-#' @rdname ggalt-ggproto
+#' @rdname beadplot-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomBead <- ggproto("GeomBead", Geom,
-                    non_missing_aes = c("shape", "size", "segment.fill"),
-                    default_aes = aes(
-                      shape = 19, colour = "black", fill = NA, size = 0.5,
-                      alpha = NA, stroke = 0.5, segment.fill = "grey"
-                    ),
+GeomSegment <- ggproto("GeomSegment", Geom,
+                    non_missing_aes = c("segment.fill", "size"),
+                    default_aes = aes(segment.fill = "grey", size = 0.5,
+                                      alpha = NA),
                     setup_data = function(data, params) {
-                      segments <- calc_offsets(params$segments, "segment_id", "min", "max")
-                      data <- merge(data, segments)
-                      data$x <- data$x + data$offset
-                      data$xend <- max(data$offset) + data$max[which.max(data$offset)]
-                      data$yend <- data$y
-                      data
-                    },
-                    draw_group = function(data, panel_scales, coord, segments) {
                       # browser()
+                      data <- data[match(unique(data$segment_id), data$segment_id),]
+                      data <- data[order(data$segment_id),]
+                      segments <- params$segments[order(params$segments$segment_id),]
                       segments <- calc_offsets(segments, "segment_id", "min", "max")
                       rects <- segments
                       rects$xmin <- rects$offset
                       rects$xmax <- rects$offset + (rects$max - rects$min)
-                      rects$ymin <- panel_scales$y.range[1]
-                      rects$ymax <- panel_scales$y.range[2]
-                      rects <- merge(rects, data)
-                      rects$fill <- rects$segment.fill
-                      segments <- merge(segments, data)
-                      segments$x <- 0
-                      data$size <- data$size * 5
+                      rects$PANEL <- data$PANEL[1]
+                      rects$group <- 1
+                      rects$size <- data$size
                       browser()
+                      data$fill <- data$segment.fill
+                      rects$fill <- data$fill
+                      rects$segment.fill <- data$segment.fill
+                      # browser()
+                      data <- rects
+                    },
+                    draw_group = function(data, panel_scales, coord, segments) {
+                      browser()
+                      data$ymin <- panel_scales$y.range[1]
+                      data$ymax <- panel_scales$y.range[2]
+                      # browser()
                       grid::gList(
-                        ggplot2::GeomRect$draw_panel(rects, panel_scales, coord),
-                        ggplot2::GeomSegment$draw_panel(segments, panel_scales, coord),
-                        ggplot2::GeomPoint$draw_panel(data, panel_scales, coord)
+                        ggplot2::GeomRect$draw_panel(data, panel_scales, coord)
                       )
                     },
-                    required_aes = c("x", "y", "segment_id"),
+                    required_aes = c("segment_id"),
 
-                    draw_key = draw_key_point
+                    draw_key = draw_key_rect
 )
 
-# non_missing_aes = c("size", "shape"),
+  # non_missing_aes = c("size", "shape"),
 # default_aes = aes(
 #   segments = NULL, segment_id = NULL,
 #   shape = 19, colour = "black", size = 0.5, fill = NA,
