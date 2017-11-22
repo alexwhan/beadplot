@@ -2,8 +2,8 @@
 #'
 #' @param segments A data.frame describing max and min of each segment
 #' @param segment_id A variable to describe the segments for which to calculate offsets. Converted to factor. Need to be the same as the number of rows.
-#' @param offsets_min A variable in offsets describing the minimum of each segment
-#' @param offsets_max A variable in offsets describing the maximum of each segment
+#' @param segment_min A variable in offsets describing the minimum of each segment
+#' @param segment_max A variable in offsets describing the maximum of each segment
 #'
 #' @return A data.frame
 #' @export

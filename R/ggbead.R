@@ -1,4 +1,4 @@
-  StatBead <- ggplot2::ggproto("StatBead", ggplot2::Stat,
+StatBead <- ggplot2::ggproto("StatBead", ggplot2::Stat,
                       required_aes = c("x", "y", "segment_id"),
 
                       setup_params = function(data, params) {
@@ -12,7 +12,8 @@
                       compute_group = function(data, scales, segments, segment_id) {
                         data <- merge(data, segments)
                         data$x <- data$x + data$offset
-                        browser()
+                        #browser()
+                        data
                       }
 )
 
@@ -20,6 +21,7 @@
 #'
 #' @inheritParams ggplot2::stat_identity
 #' @param segments A data.frame describing max and min of each group
+#' @param segment_id A variable descriging the segment if
 #'
 #' @export
 #' @examples
