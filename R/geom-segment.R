@@ -51,7 +51,7 @@ GeomSegment <- ggproto("GeomSegment", Geom,
                       data$ymax <- panel_scales$y.range[2]
                       # browser()
                       grid::gList(
-                        ggplot2::GeomRect$draw_panel(data, panel_scales, coord)
+                        ggplot2::GeomRaster$draw_panel(data, panel_scales, coord)
                       )
                     },
                     required_aes = c("segment_id"),
