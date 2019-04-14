@@ -1,0 +1,22 @@
+---
+title: "beadplot examples"
+author: "Alex Whan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=1, fig.height=6, fig.width=8)
+library(ggplot2)
+library(beadplot)
+```
+
+```{r}
+ggplot2::ggplot(basic_data, ggplot2::aes(dist, y, segment_id = segment_id)) +
+  stat_string(segments = basic_segments) +
+  stat_bead(segments = basic_segments)
+```
