@@ -22,13 +22,28 @@ calc_offsets <- function(segments, segment_id, segment_min = "min", segment_max 
     message(paste("Converting", segment_id, "to factor, this may affect expected ordering"))
     segments[[segment_id]] <- factor(segments[[segment_id]])
   }
-
   nsegments <- length(levels(segments[[segment_id]]))
   segments <- segments[order(segments[[segment_id]]),]
   segments$diff <- segments[[segment_max]] - segments[[segment_min]]
   segments$offset <- cumsum(c(segments[[segment_min]][1], segments[["diff"]][1:(nsegments - 1)]))
   names(segments)[[which(names(segments) == segment_id)]] <- "segment_id"
   return(segments)
+}
+
+#' Calculate offsets from full data
+#'
+#' Calculates offsets from a data.frame with multiple rows per segment
+#'
+#' @inheritParams calc_offsets
+#' @return
+#' @export
+#'
+#' @examples
+calc_offsets_full <- function(dat, segment_id, segment_min = "min", segment_max = "max") {
+  dat_unique <- dat[unique(match(dat[[segment_id]], dat[[segment_id]])), c(segment_id, segment_min, segment_max)]
+  dat_off <- calc_offsets(dat_unique, segment_id, segment_min, segment_max)
+  dat_out <- dplyr::full_join(dat, dat_off)
+  dat_out
 }
 
 #' Offset continuous data by segment

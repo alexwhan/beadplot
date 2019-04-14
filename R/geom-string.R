@@ -22,9 +22,9 @@ geom_string <- function(mapping = NULL, data = NULL, ...,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomString <- ggproto("GeomString", Geom,
+GeomString <- ggplot2::ggproto("GeomString", ggplot2::Geom,
                     non_missing_aes = c("size", "line.colour"),
-                    default_aes = aes(
+                    default_aes = ggplot2::aes(
                       line.colour = "black", size = 0.5,
                       alpha = NA, stroke = 0.5
                     ),
@@ -49,7 +49,7 @@ GeomString <- ggproto("GeomString", Geom,
                     },
                     required_aes = c("x", "y", "segment_id"),
 
-                    draw_key = draw_key_path
+                    draw_key = ggplot2::draw_key_path
 )
 
 # non_missing_aes = c("size", "shape"),
@@ -77,4 +77,4 @@ GeomString <- ggproto("GeomString", Geom,
 # },
 #
 # draw_key = draw_key_point
-)
+# )

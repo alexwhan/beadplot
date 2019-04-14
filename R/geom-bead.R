@@ -21,7 +21,7 @@ geom_bead <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomBead <- ggplot2::ggproto("GeomBead", Geom,
+GeomBead <- ggplot2::ggproto("GeomBead", ggplot2::Geom,
                              non_missing_aes = c("shape", "size", "fill"),
                              default_aes = ggplot2::aes(
                                shape = 19,
@@ -108,10 +108,10 @@ GeomBead <- ggplot2::ggproto("GeomBead", Geom,
 # draw_key = draw_key_point
 # )
 
-GeomBead <- ggproto("GeomBead", Geom,
+GeomBead <- ggplot2::ggproto("GeomBead", ggplot2::Geom,
                     required_aes = c("x", "y"),
                     non_missing_aes = c("size", "shape"),
-                    default_aes = aes(
+                    default_aes = ggplot2::aes(
                       shape = 19, colour = "black", size = 0.5, fill = NA,
                       alpha = NA, stroke = 0.5
                     ),
@@ -133,5 +133,5 @@ GeomBead <- ggproto("GeomBead", Geom,
 
                     },
 
-                    draw_key = draw_key_point
+                    draw_key = ggplot2::draw_key_point
 )

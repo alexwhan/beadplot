@@ -22,9 +22,9 @@ geom_segment <- function(mapping = NULL, data = NULL, ...,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomSegment <- ggproto("GeomSegment", Geom,
+GeomSegment <- ggplot2::ggproto("GeomSegment", ggplot2::Geom,
                     non_missing_aes = c("segment.fill", "size"),
-                    default_aes = aes(segment.fill = "grey", size = 0.5,
+                    default_aes = ggplot2::aes(segment.fill = "grey", size = 0.5,
                                       alpha = NA),
                     setup_data = function(data, params) {
                       # browser()
@@ -56,7 +56,7 @@ GeomSegment <- ggproto("GeomSegment", Geom,
                     },
                     required_aes = c("segment_id"),
 
-                    draw_key = draw_key_rect
+                    draw_key = ggplot2::draw_key_rect
 )
 
   # non_missing_aes = c("size", "shape"),
@@ -84,4 +84,4 @@ GeomSegment <- ggproto("GeomSegment", Geom,
 # },
 #
 # draw_key = draw_key_point
-)
+# )
